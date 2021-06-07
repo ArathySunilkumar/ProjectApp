@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+<item name="android:buttonStyle">@style/ButtonStlye123</item>
+</style>
+
+<style name="ButtonStlye123" parent="android:style/Widget.Button">
+<item name="android:textSize">19dp</item>
+<item name="android:layout_margin">8dp</item>
+<item name="android:padding">8dp</item>
+<item name="android:textColor">@color/black</item>
+
+<item name="android:background">@color/common_google_signin_btn_text_light</item>
+</style>
+</resources>

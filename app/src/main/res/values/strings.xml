@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ProjrctApp</string>
+    <string-array name="studentclass">
+        <item>Seven</item>
+        <item>Eight</item>
+    </string-array>
+
+</resources>

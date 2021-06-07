@@ -1,0 +1,141 @@
+<html>
+<head>
+<title>tutorRegister.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #808080;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+tutorRegister.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.example.projrctapp</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">androidx.annotation.NonNull</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.appcompat.app.AppCompatActivity</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Button</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.CheckBox</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Toast</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">com.google.android.gms.tasks.OnCompleteListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.android.gms.tasks.Task</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.firestore.DocumentReference</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.firestore.DocumentSnapshot</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.firestore.FirebaseFirestore</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">tutorRegister </span><span class="s0">extends </span><span class="s1">AppCompatActivity {</span>
+    <span class="s1">CheckBox e_bio</span><span class="s0">,</span><span class="s1">e_chem</span><span class="s0">,</span><span class="s1">s_bio</span><span class="s0">,</span><span class="s1">s_chem</span><span class="s0">;</span>
+    <span class="s1">Button ok_tutor</span><span class="s0">;</span>
+    <span class="s1">FirebaseFirestore db</span><span class="s0">;</span>
+    <span class="s1">String val=</span><span class="s2">&quot;&quot;</span><span class="s0">;</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) {</span>
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s0">;</span>
+        <span class="s1">setContentView(R.layout.activity_tutor_register)</span><span class="s0">;</span>
+        <span class="s1">db=FirebaseFirestore.getInstance()</span><span class="s0">;</span>
+        <span class="s1">e_bio=findViewById(R.id.c_e_bio)</span><span class="s0">;</span>
+        <span class="s1">e_chem=findViewById(R.id.c_e_chem)</span><span class="s0">;</span>
+        <span class="s1">s_bio=findViewById(R.id.c_s_bio)</span><span class="s0">;</span>
+        <span class="s1">s_chem=findViewById(R.id.c_s_chem)</span><span class="s0">;</span>
+<span class="s3">//.................................................................................................................</span>
+<span class="s3">//................................DISABLING CHECKBOXES.........................................................</span>
+<span class="s3">//...................................................................................................................</span>
+        <span class="s1">DocumentReference docRef = db.collection(</span><span class="s2">&quot;courses&quot;</span><span class="s1">).document(</span><span class="s2">&quot;Eight&quot;</span><span class="s1">).collection(</span><span class="s2">&quot;sub&quot;</span><span class="s1">).document(</span><span class="s2">&quot;Biology&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">docRef.get().addOnCompleteListener(</span><span class="s0">new </span><span class="s1">OnCompleteListener&lt;DocumentSnapshot&gt;() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onComplete(@NonNull Task&lt;DocumentSnapshot&gt; task) {</span>
+                <span class="s0">if </span><span class="s1">(task.isSuccessful()) {</span>
+                    <span class="s1">DocumentSnapshot document = task.getResult()</span><span class="s0">;</span>
+                    <span class="s0">if </span><span class="s1">(document.exists()) {</span>
+                        <span class="s1">String val=document.getString(</span><span class="s2">&quot;tutor&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                        <span class="s0">if</span><span class="s1">(val.isEmpty()){</span>
+
+                        <span class="s1">}</span><span class="s0">else </span><span class="s1">{</span>
+                            <span class="s1">e_bio.setEnabled(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+                        <span class="s1">}</span>
+                    <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                        <span class="s1">Toast.makeText(tutorRegister.</span><span class="s0">this, </span><span class="s2">&quot;No Document&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                    <span class="s1">Toast.makeText(tutorRegister.</span><span class="s0">this, </span><span class="s2">&quot;ERROR : &quot;</span><span class="s1">+task.getException().getMessage()</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+        <span class="s1">DocumentReference docRef1 = db.collection(</span><span class="s2">&quot;courses&quot;</span><span class="s1">).document(</span><span class="s2">&quot;Seven&quot;</span><span class="s1">).collection(</span><span class="s2">&quot;sub&quot;</span><span class="s1">).document(</span><span class="s2">&quot;Biology&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">docRef1.get().addOnCompleteListener(</span><span class="s0">new </span><span class="s1">OnCompleteListener&lt;DocumentSnapshot&gt;() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onComplete(@NonNull Task&lt;DocumentSnapshot&gt; task) {</span>
+                <span class="s0">if </span><span class="s1">(task.isSuccessful()) {</span>
+                    <span class="s1">DocumentSnapshot document = task.getResult()</span><span class="s0">;</span>
+                    <span class="s0">if </span><span class="s1">(document.exists()) {</span>
+                        <span class="s1">val=document.getString(</span><span class="s2">&quot;tutor&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                        <span class="s0">if</span><span class="s1">(val.isEmpty()){</span>
+
+                        <span class="s1">}</span><span class="s0">else </span><span class="s1">{</span>
+                            <span class="s1">s_bio.setEnabled(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+                        <span class="s1">}</span>
+                    <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                        <span class="s1">Toast.makeText(tutorRegister.</span><span class="s0">this, </span><span class="s2">&quot;No Document&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                    <span class="s1">Toast.makeText(tutorRegister.</span><span class="s0">this, </span><span class="s2">&quot;ERROR : &quot;</span><span class="s1">+task.getException().getMessage()</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+        <span class="s1">DocumentReference docRef2 = db.collection(</span><span class="s2">&quot;courses&quot;</span><span class="s1">).document(</span><span class="s2">&quot;Eight&quot;</span><span class="s1">).collection(</span><span class="s2">&quot;sub&quot;</span><span class="s1">).document(</span><span class="s2">&quot;Chemistry&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">docRef2.get().addOnCompleteListener(</span><span class="s0">new </span><span class="s1">OnCompleteListener&lt;DocumentSnapshot&gt;() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onComplete(@NonNull Task&lt;DocumentSnapshot&gt; task) {</span>
+                <span class="s0">if </span><span class="s1">(task.isSuccessful()) {</span>
+                    <span class="s1">DocumentSnapshot document = task.getResult()</span><span class="s0">;</span>
+                    <span class="s0">if </span><span class="s1">(document.exists()) {</span>
+                        <span class="s1">String val=document.getString(</span><span class="s2">&quot;tutor&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                        <span class="s0">if</span><span class="s1">(val.isEmpty()){</span>
+
+                        <span class="s1">}</span><span class="s0">else </span><span class="s1">{</span>
+                            <span class="s1">e_chem.setEnabled(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+                        <span class="s1">}</span>
+                    <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                        <span class="s1">Toast.makeText(tutorRegister.</span><span class="s0">this, </span><span class="s2">&quot;No Document&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                    <span class="s1">Toast.makeText(tutorRegister.</span><span class="s0">this, </span><span class="s2">&quot;ERROR : &quot;</span><span class="s1">+task.getException().getMessage()</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+        <span class="s1">DocumentReference docRef3 = db.collection(</span><span class="s2">&quot;courses&quot;</span><span class="s1">).document(</span><span class="s2">&quot;Seven&quot;</span><span class="s1">).collection(</span><span class="s2">&quot;sub&quot;</span><span class="s1">).document(</span><span class="s2">&quot;Chemistry&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">docRef3.get().addOnCompleteListener(</span><span class="s0">new </span><span class="s1">OnCompleteListener&lt;DocumentSnapshot&gt;() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onComplete(@NonNull Task&lt;DocumentSnapshot&gt; task) {</span>
+                <span class="s0">if </span><span class="s1">(task.isSuccessful()) {</span>
+                    <span class="s1">DocumentSnapshot document = task.getResult()</span><span class="s0">;</span>
+                    <span class="s0">if </span><span class="s1">(document.exists()) {</span>
+                        <span class="s1">String val=document.getString(</span><span class="s2">&quot;tutor&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                        <span class="s0">if</span><span class="s1">(val.isEmpty()){</span>
+
+                        <span class="s1">}</span><span class="s0">else </span><span class="s1">{</span>
+                            <span class="s1">s_chem.setEnabled(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+                        <span class="s1">}</span>
+                    <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                        <span class="s1">Toast.makeText(tutorRegister.</span><span class="s0">this, </span><span class="s2">&quot;No Document&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                    <span class="s1">Toast.makeText(tutorRegister.</span><span class="s0">this, </span><span class="s2">&quot;ERROR : &quot;</span><span class="s1">+task.getException().getMessage()</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+<span class="s3">//........................................................................................................................</span>
+
+    <span class="s1">}</span>
+<span class="s1">}</span></pre>
+</body>
+</html>
